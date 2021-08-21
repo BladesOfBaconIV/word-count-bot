@@ -98,4 +98,4 @@ def _make_table(word_count_info: Dict[str, int]) -> str:
 
 
 
-bot.run('ODc4NjczMDYwOTM1MzY4Nzg1.YSEmDg.fuTdSX1TH1FPdLtlQv8fqX1FPOI')
+bot.run('')
