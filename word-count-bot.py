@@ -11,7 +11,7 @@ import sqlite3
 
 # SQLite3 stuff
 con = sqlite3.connect('word_count_log.db')
-with open('create-tables.sql', 'r') as init_sql:
+with open('create-table.sql', 'r') as init_sql:
     con.executescript(init_sql.read())
 
 DB_CURSOR = con.cursor()
