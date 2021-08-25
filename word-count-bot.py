@@ -10,7 +10,7 @@ import sqlite3
 
 
 # SQLite3 stuff
-con = sqlite3.connect('word_count_log.db')
+con = sqlite3.connect('word_count.db')
 with open('create-table.sql', 'r') as init_sql:
     con.executescript(init_sql.read())
 
@@ -48,9 +48,10 @@ async def on_message(message: Message) -> None:
 @bot.command(name='wc')
 async def word_count_single_word(ctx, word: str, user: Member=None) -> None:
     """Get the count for a word over all users, @ a user to get the result for just them"""
+    word = word.lower()
     if user is not None:
         total = _get_word_count_single(user.id, word)
-        await ctx.send(f"{total}")
+        await ctx.send(f"{user.name} said `{word}` {total} times since I started counting")
     else:
         totals = await _get_word_count_all(word)
         await ctx.send(f"```\n{_make_table(totals)}```")
@@ -91,7 +92,7 @@ def _make_table(word_count_info: Dict[str, int]) -> str:
     longest_number = max(map(len, map(str, word_count_info.values())))
     padding = ' ' * 3
     table_top = '-' * (longest_name + longest_number + (2 * len(padding)) + 3)
-    row = f"|{{name}}{padding}|{padding}{{value}}|"
+    row = f"|{{name:<{longest_name}}}{padding}|{padding}{{value:>{longest_number}}}|"
     rows = f"\n".join([
         row.format(name=name, value=value)
         for name, value in sorted(word_count_info.items(), key=lambda x: x[1])
