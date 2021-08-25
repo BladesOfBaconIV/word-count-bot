@@ -47,6 +47,7 @@ async def on_message(message: Message) -> None:
 
 @bot.command(name='wc')
 async def word_count_single_word(ctx, word: str, user: Member=None) -> None:
+    """Get the count for a word over all users, @ a user to get the result for just them"""
     if user is not None:
         total = _get_word_count_single(user.id, word)
         await ctx.send(f"{total}")
@@ -81,7 +82,8 @@ async def _get_word_count_all(word: str) -> Dict[str, int]:
 
 def _get_word_count_single(user_id: int, word: str) -> int:
     DB_CURSOR.execute(GET_TOTAL_USER, (user_id, word))
-    return DB_CURSOR.fetchone()[0]
+    result = DB_CURSOR.fetchone()
+    return result[0] if result is not None else 0
 
 
 def _make_table(word_count_info: Dict[str, int]) -> str:
