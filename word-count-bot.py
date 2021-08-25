@@ -54,7 +54,10 @@ async def word_count_single_word(ctx, word: str, user: Member=None) -> None:
         await ctx.send(f"{user.name} said `{word}` {total} times since I started counting")
     else:
         totals = await _get_word_count_all(word)
-        await ctx.send(f"```\n{_make_table(totals)}```")
+        if not totals:
+            await ctx.send(f"No one has ever said `{word}`. Why don't you be the first?")
+        else:
+            await ctx.send(f"```\n{_make_table(totals)}```")
 
 
 # helper methods
