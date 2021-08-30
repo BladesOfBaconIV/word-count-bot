@@ -40,7 +40,7 @@ bot = commands.Bot("?", intents=intent)
 @bot.event
 async def on_message(message: Message) -> None:
     message_text = message.content
-    if not message.author.bot and message_text[0] not in ('_', '-', '!', '?', '/', '\\', ):
+    if not message.author.bot and message_text and message_text[0] not in ('_', '-', '!', '?', '/', '\\', ):
         _insert_words(message.author.id, _get_words(message_text))
     await bot.process_commands(message)
 
@@ -98,7 +98,7 @@ def _make_table(word_count_info: Dict[str, int]) -> str:
     row = f"|{{name:<{longest_name}}}{padding}|{padding}{{value:>{longest_number}}}|"
     rows = f"\n".join([
         row.format(name=name, value=value)
-        for name, value in sorted(word_count_info.items(), key=lambda x: x[1])
+        for name, value in sorted(word_count_info.items(), key=lambda x: x[1], reverse=True)
     ])
     return f"{table_top}\n{rows}\n{table_top}"
 
