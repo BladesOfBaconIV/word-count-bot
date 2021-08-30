@@ -10,7 +10,7 @@ import sqlite3
 
 
 # SQLite3 stuff
-con = sqlite3.connect('word_count.db')
+con = sqlite3.connect('./db/word-count.db')
 with open('create-table.sql', 'r') as init_sql:
     con.executescript(init_sql.read())
 
@@ -104,4 +104,4 @@ def _make_table(word_count_info: Dict[str, int]) -> str:
 
 
 
-bot.run('')
+# bot.run('')
