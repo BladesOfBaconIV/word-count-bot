@@ -39,7 +39,7 @@ bot = commands.Bot("?", intents=intent)
 
 @bot.event
 async def on_message(message: Message) -> None:
-    message_text = message.content
+    message_text = message.content.lower()
     if not message.author.bot and message_text and message_text[0] not in ('_', '-', '!', '?', '/', '\\', ):
         _insert_words(message.author.id, _get_words(message_text))
     await bot.process_commands(message)
